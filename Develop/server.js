@@ -1,6 +1,7 @@
-require ('dotenv').config();
+// require ('dotenv').config();
 const express = require('express');
 const routes = require('./routes');
+const sequelize = require('./config/connection');
 
 
 // import sequelize connection
