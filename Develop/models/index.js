@@ -6,6 +6,8 @@ const ProductTag = require('./ProductTag');
 
 // Products belongsTo Category
 
+// unsure if the associations are correct and unsure how to check if they are
+
 Product.belongsTo(Category, {
   through: {
     model: ProductTag,

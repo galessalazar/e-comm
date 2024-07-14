@@ -7,7 +7,7 @@
 
 ## DESCRIPTION
 
-Back end e-comm 
+Back end e-comm built with latest technologies to keep companies in the e-commerce competition.
 
 
 
