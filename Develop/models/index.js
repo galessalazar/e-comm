@@ -9,41 +9,30 @@ const ProductTag = require('./ProductTag');
 // unsure if the associations are correct and unsure how to check if they are
 
 Product.belongsTo(Category, {
-  through: {
-    model: ProductTag,
-    unique: false
-  },
-  as: 'product_location'
+ foreignKey: 'category_id',
+ onDelete: 'CASCADE'
 });
 
 // Categories have many Products
 
-Category.belongsToMany(Product, {
-  through: {
-    model: ProductTag, 
-    unique: false
-  },
-  as: 'category_id'
+Category.hasMany(Product, {
+ foreignKey: 'category_id'
 });
 
 // Products belongToMany Tags (through ProductTag)
 
-ProductTag.belongsToMany(Tag, {
-  through: {
-    model: ProductTag,
-    unique: false
-  },
-  as: 'products_id'
+Product.belongsToMany(Tag, {
+  through:  ProductTag,
+    unique: false ,
+    foreignKey: 'product_id'
 });
 
 // Tags belongToMany Products (through ProductTag)
 
 Tag.belongsToMany(Product, {
-  through: {
-    model: ProductTag,
-    unique: false
-  },
-  as: 'updated_items'
+  through:  ProductTag,
+    unique: false ,
+foreignKey: 'tag_id',
 });
 
 module.exports = {

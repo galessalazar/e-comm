@@ -10,28 +10,25 @@ router.get('/', (req, res) => {
  Product.findAll({
       include: [
         Category, {
-          model: Tag, as: "tag",
+          model: Tag,
           through: ProductTag,
-        }
-      ]
-    }
-  ).then((products) => res.json(products))
-
-    console.log("product data:",productData)
-    // res.status(200).json(productData, categoryData, tagData);
+        },
+      ],
+    }).then((products) => res.json(products))
    .catch((err) => {
     res.status(500).json(err);
   
   // be sure to include its associated Category and Tag data
-})
-})
+});
+});
 // get one product
 router.get('/:id', async (req, res) => {
+  console.log('Product ID:', req.params.id);
   // find a single product by its `id`
 
     try {
       const productData = await Product.findByPk(req.params.id, {
-        include: [{ model: Category}]
+        include: [{ model: Category}, {model: Tag}],
       });
 
       if (!productData) {
@@ -56,6 +53,8 @@ router.post('/', async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
+  
+
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -112,10 +111,16 @@ router.put('/:id', (req, res) => {
             ProductTag.destroy({ where: { id: productTagsToRemove } }),
             ProductTag.bulkCreate(newProductTags),
           ]);
+        })
+        .then(() => {
+         return res.json(product);
         });
-      }
 
+
+      }
+      
       return res.json(product);
+     
     })
     .catch((err) => {
       // console.log(err);
